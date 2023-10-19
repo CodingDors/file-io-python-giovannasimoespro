@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Pytest",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/test_file.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "subProcess": true,
+            "pytestOptions": [],
+            "args": [],
+            "purpose": ["debug-test"]
+        }
+    ]
+}
+
