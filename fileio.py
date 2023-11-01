@@ -2,130 +2,63 @@ import unittest
 import os
 
 
-# Problem 1: Write a function to write a string to a file -> COMPLETED FOR YOU
+# Problem 1: Write a function to write a string to a file.
 def write_string_to_file(s, filename):
-    """
-    Writes a string to a specified file.
-
-    Args:
-    - s (str): The string to be written to the file.
-    - filename (str): The name of the file.
-
-    Returns:
-    None
-    """
     with open(filename, 'w') as f:
         f.write(s)
         
 # Problem 2: Write a function to read a string from a file.
 def read_string_from_file(filename):
-    """
-    Reads the entire content of a file as a string.
-
-    Args:
-    - filename (str): The name of the file.
-
-    Returns:
-    str: The content of the file.
-    """
+    with open(filename, 'r') as f:
+        return f.read()
 
 # Problem 3: Write a function to append a string to a file.
 def append_string_to_file(s, filename):
-    """
-    Appends a string to the end of a specified file.
-
-    Args:
-    - s (str): The string to be appended.
-    - filename (str): The name of the file.
-
-    Returns:
-    None
-    """
-
+    with open(filename, 'a') as f:
+        f.write(s)
 
 # Problem 4: Write a function to copy contents from one file to another.
 def copy_file_content(src, dest):
-    """
-    Copies the content of one file to another.
-
-    Args:
-    - src (str): The source file.
-    - dest (str): The destination file.
-
-    Returns:
-    None
-    """
-
-
-# Problem 5: Write a function to create a file with N lines of numbers from 1 to N.
-def create_file_with_numbers(filename, N):
-    """
-    Creates a file with N lines of numbers, from 1 to N.
-
-    Args:
-    - filename (str): The name of the file to be created.
-    - N (int): The number of lines/numbers.
-
-    Returns:
-    None
-    """
-
-
-# Problem 6: Write a function to count the number of lines in a file.
+    with open(src, 'r') as source_file:
+        with open(dest, 'w') as dest_file:
+            for line in source_file:
+                print("h")
+        
+# Problem 5: Write a function to count the number of lines in a file.
 def count_lines(filename):
-    """
-    Counts the number of lines in a file.
+    print(filename)
+    with open(filename, 'r') as f:
+        return len(f.readlines())
 
-    Args:
-    - filename (str): The name of the file.
-
-    Returns:
-    int: The number of lines in the file.
-    """
-    
-
-# Problem 7: Write a function to find a string in a file and return the line number.
+# Problem 6: Write a function to find a string in a file and return the line number.
 def find_string_in_file(s, filename):
-    """
-    Searches for a string in a file and returns the line number where it was found.
+    with open(filename, 'r') as f:
+        for i, line in enumerate(f, start=1):
+            if s in line:
+                return i
+    return None
 
-    Args:
-    - s (str): The string to be searched.
-    - filename (str): The name of the file.
-
-    Returns:
-    int: The line number where the string was found or None if not found.
-    """
-
-
-# Problem 8: Write a function to delete a specific line from a file.
+# Problem 7: Write a function to delete a specific line from a file.
 def delete_line(filename, line_number):
-    """
-    Deletes a specific line from a file.
+    with open(filename, 'r') as f:
+        lines = f.readlines()
+    with open(filename, 'w') as f:
+        for i, line in enumerate(lines):
+            if i != line_number - 1:
+                f.write(line)
 
-    Args:
-    - filename (str): The name of the file.
-    - line_number (int): The line number to be deleted.
-
-    Returns:
-    None
-    """
-
-# Problem 9: Write a function to replace a specific line in a file.
+# Problem 8: Write a function to replace a specific line in a file.
 def replace_line(filename, line_number, new_line):
-    """
-    Replaces a specific line in a file with a new line.
+    with open(filename, 'r') as f:
+        lines = f.readlines()
+    with open(filename, 'w') as f:
+        for i, line in enumerate(lines):
+            if i == line_number - 1:
+                f.write(new_line + '\n')
+            else:
+                f.write(line)
 
-    Args:
-    - filename (str): The name of the file.
-    - line_number (int): The line number to be replaced.
-    - new_line (str): The new line content.
-
-    Returns:
-    None
-    """
-
-#Problem 10 Calculate the most frequent word in a dictionary
+# Problem 9: Write a function to get the size of a file.
 def most_frequent_word(filename):
     """
     Determines and returns the most frequent word in a file.
@@ -139,7 +72,30 @@ def most_frequent_word(filename):
     Returns:
     - str: The most frequent word in the file.
     """
-    
+    word_count = {}
+    most_frequent = None
+    max_count = 0
+
+    with open(filename, 'r') as f:
+        for line in f:
+            words = line.strip().lower().split()  # Convert to lowercase and split line into words
+            for word in words:
+                word_count[word] = word_count.get(word, 0) + 1  # Increment word count
+
+                # Update most frequent word if current word's count is higher
+                if word_count[word] > max_count:
+                    max_count = word_count[word]
+                    most_frequent = word
+
+    return most_frequent
+
+
+# Problem 10: Write a function to create a file with N lines of numbers from 1 to N.
+def create_file_with_numbers(filename, N):
+    with open(filename, 'w') as f:
+        for i in range(1, N+1):
+            f.write(str(i) + '\n')
+
 
 #Problem 11
 def average_word_length(filename):
@@ -154,6 +110,17 @@ def average_word_length(filename):
     Returns:
     - float: The average length of words in the file.
     """
+    total_words = 0
+    total_length = 0
+    
+    with open(filename, 'r') as f:
+        for line in f:
+            words = line.strip().split()  # Split line into words
+            total_words += len(words)
+            total_length += sum(len(word) for word in words)
+
+    return total_length / total_words if total_words else 0
+
 
 
 
